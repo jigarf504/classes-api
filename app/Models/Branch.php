@@ -9,7 +9,9 @@ class Branch extends Model
 {
     use HasFactory;
     public $fillable = ['name', 'email', 'address', 'state', 'city', 'branch_code', 'mobile', 'contact_person_name', 'contact_person_mobile','phone', 'contact_person_email'];
-
+    public $appends = [
+        'status'
+    ];
     public array $rules = [
         'name' => 'required|unique:branches|max:125',
         'email' => 'required|email',
@@ -21,4 +23,8 @@ class Branch extends Model
         'state' => 'required',
         'contact_person_name' => 'required|max:50',
     ];
+
+    public function getStatusAttribute() {
+        return $this->is_active === 1 ? 'Active' : 'Inactive';
+    }
 }

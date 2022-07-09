@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::controller(BranchController::class)->prefix('branch')->group(function () {
-    Route::get('/branch/{branch}', 'show')->name('branch.show');
+    Route::get('/{branch}', 'show')->name('branch.show');
     Route::post('/', 'store')->name('branch.save');
     Route::get('/', 'index')->name('branch.index');
-    Route::put('/branch/{branch}', 'update')->name('branch.update');
-    Route::delete('/branch/{branch}', 'destroy')->name('branch.destroy');
+    Route::put('/{branch}', 'update')->name('branch.update');
+    Route::delete('/{branch}', 'destroy')->name('branch.destroy');
 });
 
 Route::controller(CourseController::class)->prefix('course')->group(function () {

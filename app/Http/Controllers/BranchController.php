@@ -23,7 +23,7 @@ class BranchController extends Controller
                 'id', 'branch_code', 'name', 'email',
                 'mobile', 'contact_person_name',
                 'contact_person_mobile',
-                DB::raw('IF(is_active, "Active", "Inactive") AS status')
+                'is_active'
             ];
 
             $perPage = $request->per_page ?? 10;
