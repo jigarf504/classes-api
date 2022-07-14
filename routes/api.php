@@ -24,6 +24,7 @@ Route::controller(BranchController::class)->prefix('branch')->group(function () 
     Route::get('/', 'index')->name('branch.index');
     Route::put('/{branch}', 'update')->name('branch.update');
     Route::delete('/{branch}', 'destroy')->name('branch.destroy');
+    Route::post('/bulk-actions','bulkActions')->name('branch.actions');
 });
 
 Route::controller(CourseController::class)->prefix('course')->group(function () {

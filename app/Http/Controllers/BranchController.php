@@ -136,4 +136,34 @@ class BranchController extends Controller
             return $this->getValidationErrorMessageAndResponse($e);
         }
     }
+
+    public function bulkActions(Request $request) {
+        try {
+            $isOpSuccess = false;
+
+            $branches = Branch::whereIn('id',[1,2,3,5]);
+            $message = '';
+
+            switch ($request->action) {
+                case 'inactive':
+                    $isOpSuccess = $branches->update(['is_active' => 0]);
+                    $message = 'Branches has been inactive successfully..!!';
+                    break;
+                case 'active':
+                    $isOpSuccess = $branches->update(['is_active' => 1]);
+                    $message = 'Branches has been active successfully..!!';
+                    break;
+                case 'delete':
+                    $isOpSuccess = $branches->delete();
+                    $message = 'Branches has been deleted successfully..!!';
+                    break;
+            }
+            if ($isOpSuccess) {
+                return response()->json(['message' => $message, 'data' => null, 'status' => true], 200);
+            }
+            return response()->json(['message' => self::ERROR_MSG, 'data' => null, 'status' => true], 200);
+        } catch (Exception $e) {
+            return $this->getValidationErrorMessageAndResponse($e);
+        }
+    }
 }
