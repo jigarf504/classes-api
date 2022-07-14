@@ -141,7 +141,7 @@ class BranchController extends Controller
         try {
             $isOpSuccess = false;
 
-            $branches = Branch::whereIn('id',[1,2,3,5]);
+            $branches = Branch::whereIn('id',$request->ids);
             $message = '';
 
             switch ($request->action) {
