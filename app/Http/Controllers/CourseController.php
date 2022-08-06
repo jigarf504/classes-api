@@ -18,7 +18,8 @@ class CourseController extends Controller
                 'installment_payment',
                 DB::raw('IF(is_active, "Active", "Inactive") AS status')
             ];
-            $courses = Course::select($selectArr)->cursorPaginate(5)->withQueryString();
+            $perPage = $request->per_page ?? 10;
+            $courses = Course::select($selectArr)->paginate($perPage)->withQueryString();
             $data = [];
             if ($courses) {
                 $data = [
@@ -53,6 +54,7 @@ class CourseController extends Controller
         try {
             $validator = Validator::make($request->all(), (new Course)->rules);
             if ($validator->fails()) {
+                return $validator->messages();
                 return $this->getValidationErrorMessageAndResponse($validator->messages());
             }
 

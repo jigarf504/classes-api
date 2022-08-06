@@ -28,14 +28,14 @@ Route::controller(BranchController::class)->prefix('branch')->group(function () 
 });
 
 Route::controller(CourseController::class)->prefix('course')->group(function () {
-    Route::get('', 'index')->name('course.list');
+    Route::get('/', 'index')->name('course.list');
     Route::get('/{course}', 'show')->name('course.show');
-    Route::post('', 'store')->name('course.save');
+    Route::post('/', 'store')->name('course.save');
     Route::put('/{course}', 'update')->name('course.update');
     Route::delete('/{course}', 'destory')->name('course.destroy');
 });
 
-Route::controller(QualificationController::class)->prefix('course')->group(function () {
+Route::controller(QualificationController::class)->prefix('qualification')->group(function () {
     Route::get('', 'index')->name('qualification.list');
     Route::get('{qualification}', 'show')->name('qualification.show');
     Route::post('', 'store')->name('qualification.save');

@@ -25,9 +25,11 @@ class BranchController extends Controller
                 'contact_person_mobile',
                 'is_active'
             ];
-
+            $sortField = $request->sort_field ?? 'id';
+            $sortType = $request->sort_type ?? 'DESC';
             $perPage = $request->per_page ?? 10;
-            $branches = Branch::select($selectArr)->paginate($perPage)->withQueryString();
+
+            $branches = Branch::select($selectArr)->orderBy($sortField,$sortType)->paginate($perPage)->withQueryString();
             $data = [];
             if ($branches) {
                 $data = [
@@ -64,7 +66,7 @@ class BranchController extends Controller
             }
             $branch = Branch::create($request->all());
             if ($branch) {
-                return response()->json(["message" => 'Branch is created successfully.', 'status' => true, 'data' => $branch], 201);
+                return response()->json(["message" => 'Branch is created successfully.', 'status' => true, 'data' => $branch], 200);
             } else {
                 return response()->json(["status" => false, 'message' => self::ERROR_MSG, 'data' => null], 500);
             }
@@ -108,7 +110,9 @@ class BranchController extends Controller
                 return $this->getValidationErrorMessageAndResponse($validator->messages()->toArray());
             }
 
-            if ($branch->update($request->all())) {
+            $requestDataArr = $request->all();
+            $requestDataArr['is_active'] = $requestDataArr['is_active'] == true ? 1 : 0;
+            if ($branch->update($requestDataArr)) {
                 return response()->json(['message' => 'Branch detail is updated successfully.!!', 'data' => $branch->refresh(), 'status' => true], 200);
             } else {
                 return response()->json(['message' => self::ERROR_MSG, 'data' => null, 'status' => true], 500);
