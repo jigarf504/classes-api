@@ -24,7 +24,7 @@ class Controller extends BaseController
 
     public function getCatchErrorMessage($e) : JsonResponse {
         //\Log::error($e->getMessage());
-        return response()->json(["status" => false, 'message' => self::ERROR_MSG,'data' => null], 500);
+        return response()->json(["status" => false, 'message' => $e->getMessage(), 'data' => null], 500);
     }
     public function getValidationErrorMessageAndResponse($messageArr) : JsonResponse
     {
