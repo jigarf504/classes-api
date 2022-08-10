@@ -12,9 +12,31 @@ class InquiryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() : JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        //
+        try {
+            $sortField = $request->sort_field ?? 'id';
+            $sortType = $request->sort_type ?? 'DESC';
+            $perPage = $request->per_page ?? 10;
+            $inquiries = Inquiry::with("branch")->orderBy($sortField, $sortType)->paginate($perPage);
+            $data = [];
+            if ($inquiries) {
+                $data = [
+                    'data' => $inquiries,
+                    'message' => 'Branches details',
+                    'status' => true
+                ];
+            } else {
+                $data = [
+                    'data' => null,
+                    'message' => self::ERROR_MSG,
+                    'status' => false
+                ];
+            }
+            return response()->json($data);
+        } catch (Exception $e) {
+            return response()->json(['message' => self::ERROR_MSG, 'status' => false, 'data' => null], 500);
+        }
     }
 
     /**

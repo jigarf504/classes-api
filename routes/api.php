@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{BranchController, CourseController, QualificationController};
+use App\Http\Controllers\{BranchController, CourseController, QualificationController, InquiryController};
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +42,13 @@ Route::controller(QualificationController::class)->prefix('qualification')->grou
     Route::post('/status/{qualification}', 'updateStatus')->name('qualification.updatestatus');
     Route::put('/{qualification}', 'update')->name('qualification.update');
     Route::delete('{qualification}', 'destory')->name('qualification.destroy');
+});
+
+Route::controller(InquiryController::class)->prefix('inquiry')->group(function () {
+    Route::get('', 'index')->name('inquiry.list');
+    Route::get('{inquiry}', 'show')->name('inquiry.show');
+    Route::post('', 'store')->name('inquiry.save');
+    Route::post('/status/{inquiry}', 'updateStatus')->name('inquiry.updatestatus');
+    Route::put('/{inquiry}', 'update')->name('inquiry.update');
+    Route::delete('{inquiry}', 'destory')->name('inquiry.destroy');
 });
