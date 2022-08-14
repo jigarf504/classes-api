@@ -19,12 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::controller(BranchController::class)->prefix('branch')->group(function () {
+    Route::get("/list", "getList")->name("branch.list");
     Route::get('/{branch}', 'show')->name('branch.show');
     Route::post('/', 'store')->name('branch.save');
     Route::get('/', 'index')->name('branch.index');
     Route::put('/{branch}', 'update')->name('branch.update');
     Route::delete('/{branch}', 'destroy')->name('branch.destroy');
     Route::post('/bulk-actions','bulkActions')->name('branch.actions');
+
 });
 
 Route::controller(CourseController::class)->prefix('course')->group(function () {

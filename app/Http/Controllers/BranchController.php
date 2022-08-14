@@ -170,4 +170,16 @@ class BranchController extends Controller
             return $this->getValidationErrorMessageAndResponse($e);
         }
     }
+
+    public function getList()
+    {
+        try {
+            $branches = Branch::select([
+                "id", "branch_code", "name", "is_active"
+            ])->where("is_active", 1)->get();
+            return response()->json(['message' => "branch lists", 'data' => $branches, 'status' => true], 200);
+        } catch (Exception $e) {
+            return $this->getValidationErrorMessageAndResponse($e);
+        }
+    }
 }
