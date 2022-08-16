@@ -171,12 +171,15 @@ class BranchController extends Controller
         }
     }
 
-    public function getList()
+    public function getList(Request $request)
     {
         try {
             $branches = Branch::select([
                 "id", "branch_code", "name", "is_active"
-            ])->where("is_active", 1)->get();
+            ])
+            ->when($request->q, function ($query) use ($request) {
+                return $query->where("branch_code", 'like', '%' . $request->q . '%')->orWhere("name", 'Like', '%' . $request->q . '%');
+            })->where("is_active", 1)->get();
             return response()->json(['message' => "branch lists", 'data' => $branches, 'status' => true], 200);
         } catch (Exception $e) {
             return $this->getValidationErrorMessageAndResponse($e);

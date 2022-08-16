@@ -11,7 +11,7 @@ class Branch extends Model
     public $fillable = ['name', 'email', 'address', 'state', 'city', 'branch_code', 'mobile', 'contact_person_name', 'contact_person_mobile','phone', 'contact_person_email','is_active'];
     public $appends = [
         'status',
-        'branch_name'
+        'text'
     ];
     public array $rules = [
         'name' => 'required|unique:branches|max:125',
@@ -29,7 +29,7 @@ class Branch extends Model
         return $this->is_active === 1 ? 'Active' : 'Inactive';
     }
 
-    public function getBranchNameAttribute()
+    public function getTextAttribute()
     {
         return "#{$this->branch_code} - {$this->name}";
     }
